@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html ng-app="ShMusicApp" lang="en">
+    <head>
+
+        <title>{% block title %}{% endblock %}</title>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+
+        <link rel="icon" href="/static/favicon.ico" />
+        <link rel="stylesheet" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="/static/bower_components/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/static/style.css"/>
+
+
+    </head>
+
+    <body ng-controller="MainCtrl" class="container">
+
+        {%raw%}
+            <div class="row">
+                <div class="col-md-9">
+                    <ul class="list-group">
+                        <li ng-click="go('/')" class="list-group-item list-group-item-warning">
+                            <a>/</a>
+                        </li>
+                        <li ng-click="go('..')" class="list-group-item list-group-item-warning">
+                            <a>..</a>
+                        </li>
+
+                        <li ng-click="go(folder)" class="list-group-item list-group-item-success" ng-repeat="folder in folders">
+                            <a>{{folder}}</a>
+                        </li>
+
+                        <li ng-if="folderSongs.length" play-all="folderSongs" class="list-group-item list-group-item-info">
+                            <button class="btn btn-xs btn-info"><i class="fa fa-plus-square"></i> Add all</button>
+                        </li>
+
+
+                        <li class="list-group-item list-group-item-info" ng-repeat="song in folderSongs">
+                            <button class="btn btn-xs btn-info" music-player="play" add-song="song"><i class="fa fa-play"></i></button>
+                            <button class="btn btn-xs btn-info" music-player add-song="song"><i class="fa fa-plus-circle"></i></button>
+                            {{song.title}}
+                        </li>
+                    </ul>
+                </div>
+                <!--Player-->
+                <div class="col-md-3">
+                    <button class="btn btn-primary btn-xs" play-music>
+                        <i class="fa fa-play"></i>
+                    </button>
+                    <button class="btn btn-primary btn-xs" pause-music>
+                        <i class="fa fa-pause"></i>
+                    </button>
+                    <button class="btn btn-primary btn-xs" stop-music>
+                        <i class="fa fa-stop"></i>
+                    </button>
+                    <button class="btn btn-primary btn-xs" prev-track>
+                        <i class="fa fa-step-backward"></i>
+                    </button>
+                    <button class="btn btn-primary btn-xs" next-track>
+                        <i class="fa fa-step-forward"></i>
+                    </button>
+                    <button class="btn btn-primary btn-xs" ng-click="clear()">
+                        <i class="fa fa-trash-o"></i>
+                    </button>
+
+
+                    <ul>
+                        <li ng-repeat="song in playlist">
+                            <a play-from-playlist="song">{{ song.title }}</a>
+                            <span ng-if="currentPlaying.id == song.id"> - (current)</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        {%endraw%}
+        <!-- Js application load -->
+        <script type="text/javascript" src="/static/bower_components/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="/static/bower_components/angularjs/angular.min.js"></script>
+        <script type="text/javascript" src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/static/app.js"></script>
+        <script type="text/javascript" src="/static/bower_components/angular-soundmanager3/dist/angular-soundmanager3.min.js"></script>
+
+    </body>
+</html>

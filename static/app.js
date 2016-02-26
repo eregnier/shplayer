@@ -40,7 +40,7 @@ module.controller('MainCtrl', function ($scope, $http) {
 	$scope.updateMusics = function () {
 		var folderSongs = [];
 		angular.forEach($scope.files, function (value, index) {
-			var music_path = $scope.rootpath + $scope.interpath + '/' + value;
+			var music_path = $scope.interpath + '/' + value;
 			console.log(music_path, index);
 			folderSongs.push({
 				url: 'file' + music_path,

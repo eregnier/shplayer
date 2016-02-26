@@ -7,6 +7,7 @@ from tools import Tool
 app = Flask(__name__)
 tool = Tool()
 
+
 @app.route('/static/<path:path>', methods=['GET'])
 def serve_static(path):
         return send_from_directory('static', path)
@@ -16,12 +17,12 @@ def serve_static(path):
 def index():
     return render_template('home.html')
 
+
 @app.route('/music', methods=['GET'])
 @app.route('/music/<path:path>', methods=['GET'])
 def music(path=''):
 
     absolute_path = u'{0}/{1}'.format(tool.music_folder, path)
-    print absolute_path
     if isdir(absolute_path):
 
         info = {
@@ -38,6 +39,8 @@ def music(path=''):
                     info['files'].append(path)
             except Exception as e:
                 pass
+                tool.debug(u'Invalid folder {0}'.format(e))
+
         info['folders'].sort()
         info['files'].sort()
 
@@ -53,7 +56,7 @@ def file(path):
     absolute_path = u'{0}/{1}'.format(tool.music_folder, path)
 
     if isfile(absolute_path):
-        return send_from_directory(u'/', path)
+        return send_from_directory(tool.music_folder, path)
     return Tool.ko('Not a valid song path')
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@ from os import listdir
 from tools import Tool
 
 app = Flask(__name__)
-
+tool = Tool()
 
 @app.route('/static/<path:path>', methods=['GET'])
 def serve_static(path):
@@ -16,10 +16,12 @@ def serve_static(path):
 def index():
     return render_template('home.html')
 
-
+@app.route('/music', methods=['GET'])
 @app.route('/music/<path:path>', methods=['GET'])
-def music(path):
-    absolute_path = u'/{0}'.format(path)
+def music(path=''):
+
+    absolute_path = u'{0}/{1}'.format(tool.music_folder, path)
+    print absolute_path
     if isdir(absolute_path):
 
         info = {
@@ -47,7 +49,9 @@ def music(path):
 
 @app.route('/file/<path:path>', methods=['GET'])
 def file(path):
-    absolute_path = u'/{0}'.format(path)
+
+    absolute_path = u'{0}/{1}'.format(tool.music_folder, path)
+
     if isfile(absolute_path):
         return send_from_directory(u'/', path)
     return Tool.ko('Not a valid song path')

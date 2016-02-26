@@ -9,6 +9,9 @@ class Tool(object):
 
     allowed_extensions = ['mp3']
 
+    def __init__(self):
+        self.music_folder = self.get('music_folder')
+
     @staticmethod
     def ok(message, data=None):
         """Return formated Ok json response"""

@@ -2,9 +2,6 @@ var module = angular.module('ShMusicApp', ['angularSoundManager']);
 
 module.controller('MainCtrl', function ($scope, $http) {
 
-	var path = localStorage.getItem('music_folder');
-
-	$scope.rootpath = path;
 	$scope.interpath = '';
 
 	$scope.go = function (path) {
@@ -19,7 +16,7 @@ module.controller('MainCtrl', function ($scope, $http) {
 			$scope.interpath = splitter.join('/');
 		}
 
-		var new_path = $scope.rootpath
+		var new_path = '';
 		if ($scope.interpath) {
 			new_path += $scope.interpath;
 		}
@@ -32,17 +29,13 @@ module.controller('MainCtrl', function ($scope, $http) {
 				console.log('retrieved', data);
 				$scope.folders = data.data.folders;
 				$scope.files = data.data.files;
-				$scope.interpath = new_path.replace($scope.rootpath, '');
+				$scope.interpath = new_path;
 				$scope.updateMusics();
 			}
 		});
 	}
 
-	if (!path) {
-		alert('music_folder localStorage value not defined !');
-	} else {
 		$scope.go('');
-	}
 
 	$scope.updateMusics = function () {
 		var folderSongs = [];

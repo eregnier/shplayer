@@ -1,3 +1,4 @@
 level: DEBUG
 logfile: /tmp/shmudic.log
 port: 5000
+music_folder: /path/to/music/folder

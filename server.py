@@ -29,10 +29,13 @@ def music(path):
 
         for path in listdir(absolute_path):
             full_path = u'{0}/{1}'.format(absolute_path, path)
-            if isdir(full_path):
+            if isdir(full_path) and not path.startswith('.'):
                 info['folders'].append(path)
             elif isfile(full_path) and full_path.lower().endswith('.mp3'):
                 info['files'].append(path)
+
+        info['folders'].sort()
+        info['files'].sort()
 
         return Tool.ok('Folder found !', data=info)
 

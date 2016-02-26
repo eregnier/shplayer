@@ -50,31 +50,42 @@
                 </div>
                 <!--Player-->
                 <div class="col-md-3 well text-center">
-                    <p>Playlist</p>
-                    <button class="btn btn-primary btn-sm" play-music>
-                        <i class="fa fa-play"></i>
-                    </button>
-                    <button class="btn btn-primary btn-sm" pause-music>
-                        <i class="fa fa-pause"></i>
-                    </button>
-                    <button class="btn btn-primary btn-sm" stop-music>
-                        <i class="fa fa-stop"></i>
-                    </button>
-                    <button class="btn btn-primary btn-sm" prev-track>
-                        <i class="fa fa-step-backward"></i>
-                    </button>
-                    <button class="btn btn-primary btn-sm" next-track>
-                        <i class="fa fa-step-forward"></i>
-                    </button>
-                    <button class="btn btn-primary btn-sm" ng-click="clear()">
-                        <i class="fa fa-trash-o"></i>
-                    </button>
+                    <div class="row">
+                        <p>Playlist</p>
 
-                    <hr/>
+                        <button class="btn btn-primary btn-sm" play-music>
+                            <i class="fa fa-play"></i>
+                        </button>
+                        <button class="btn btn-primary btn-sm" pause-music>
+                            <i class="fa fa-pause"></i>
+                        </button>
+                        <button class="btn btn-primary btn-sm" stop-music>
+                            <i class="fa fa-stop"></i>
+                        </button>
+                        <button class="btn btn-primary btn-sm" prev-track>
+                            <i class="fa fa-step-backward"></i>
+                        </button>
+                        <button class="btn btn-primary btn-sm" next-track>
+                            <i class="fa fa-step-forward"></i>
+                        </button>
+                        <button class="btn btn-primary btn-sm" clear-playlist>
+                            <i class="fa fa-trash-o"></i>
+                        </button>
+                    </div>
 
-                    <ul class="list-group" ng-repeat="song in playlist">
-                        <li play-from-playlist="song" class="list-group-item">{{ song.title }} <span ng-if="currentPlaying.id == song.id"> current</span></li>
-                    </ul>
+                    <div class="row" style="margin-top:10px" ng-if="currentPlaying">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progress}}%">
+                                {{ currentPostion }}&nbsp;/&nbsp;{{ currentDuration }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <ul class="list-group" ng-repeat="song in playlist">
+                            <li play-from-playlist="song" class="list-group-item" ng-class="{'list-group-item-success': currentPlaying.id == song.id}">{{ song.title }}</li>
+                        </ul>
 
                 </div>
 

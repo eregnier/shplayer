@@ -19,7 +19,7 @@ def index():
 
 @app.route('/music/<path:path>', methods=['GET'])
 def music(path):
-    absolute_path = '/{0}'.format(path)
+    absolute_path = u'/{0}'.format(path)
     if isdir(absolute_path):
 
         info = {
@@ -28,7 +28,7 @@ def music(path):
         }
 
         for path in listdir(absolute_path):
-            full_path = '{0}/{1}'.format(absolute_path, path)
+            full_path = u'{0}/{1}'.format(absolute_path, path)
             if isdir(full_path):
                 info['folders'].append(path)
             elif isfile(full_path) and full_path.lower().endswith('.mp3'):
@@ -42,9 +42,9 @@ def music(path):
 
 @app.route('/file/<path:path>', methods=['GET'])
 def file(path):
-    absolute_path = '/{0}'.format(path)
+    absolute_path = u'/{0}'.format(path)
     if isfile(absolute_path):
-        return send_from_directory('/', path)
+        return send_from_directory(u'/', path)
     return Tool.ko('Not a valid song path')
 
 if __name__ == "__main__":

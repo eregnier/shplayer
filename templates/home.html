@@ -10,70 +10,72 @@
         <meta name="description" content="">
 
         <link rel="icon" href="/static/favicon.ico" />
-        <link rel="stylesheet" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="/static/bootstrap.min.css"/>
         <link rel="stylesheet" href="/static/bower_components/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="/static/style.css"/>
 
-
     </head>
 
-    <body ng-controller="MainCtrl" class="container">
+    <body ng-controller="MainCtrl" class="container" style="margin-top:25px">
 
         {%raw%}
+            <sound-manager></sound-manager>
             <div class="row">
                 <div class="col-md-9">
                     <ul class="list-group">
-                        <li ng-click="go('/')" class="list-group-item list-group-item-warning">
-                            <a>/</a>
+                        <li  class="list-group-item">
+                            <button ng-click="go('/')" class="btn btn-sm btn-default">
+                                <i class="fa fa-arrow-up"></i>
+                            </button>
+                            <button ng-click="go('..')" class="btn btn-sm btn-default">
+                                <i class="fa fa-arrow-left"></i>
+                            </button>
+                            <button ng-if="folderSongs.length" class="btn btn-sm btn-default" play-all="folderSongs" data-play="false">
+                                <i class="fa fa-plus-square"></i> Add all
+                            </button>
+                            <button ng-if="folderSongs.length" class="btn btn-sm btn-default" play-all="folderSongs">
+                                <i class="fa fa-play"></i> Play all
+                            </button>
                         </li>
-                        <li ng-click="go('..')" class="list-group-item list-group-item-warning">
-                            <a>..</a>
-                        </li>
-
-                        <li ng-click="go(folder)" class="list-group-item list-group-item-success" ng-repeat="folder in folders">
+                        <li ng-click="go(folder)" class="list-group-item" ng-repeat="folder in folders">
                             <a>{{folder}}</a>
                         </li>
 
-                        <li ng-if="folderSongs.length" play-all="folderSongs" class="list-group-item list-group-item-info">
-                            <button class="btn btn-xs btn-info"><i class="fa fa-plus-square"></i> Add all</button>
-                        </li>
-
-
-                        <li class="list-group-item list-group-item-info" ng-repeat="song in folderSongs">
-                            <button class="btn btn-xs btn-info" music-player="play" add-song="song"><i class="fa fa-play"></i></button>
-                            <button class="btn btn-xs btn-info" music-player add-song="song"><i class="fa fa-plus-circle"></i></button>
+                        <li class="list-group-item" ng-repeat="song in folderSongs">
+                            <button class="btn btn-sm btn-default" music-player="play" add-song="song"><i class="fa fa-play"></i></button>
+                            <button class="btn btn-sm btn-default" music-player add-song="song"><i class="fa fa-plus-circle"></i></button>
                             {{song.title}}
                         </li>
                     </ul>
                 </div>
                 <!--Player-->
-                <div class="col-md-3">
-                    <button class="btn btn-primary btn-xs" play-music>
+                <div class="col-md-3 well text-center">
+                    <p>Playlist</p>
+                    <button class="btn btn-primary btn-sm" play-music>
                         <i class="fa fa-play"></i>
                     </button>
-                    <button class="btn btn-primary btn-xs" pause-music>
+                    <button class="btn btn-primary btn-sm" pause-music>
                         <i class="fa fa-pause"></i>
                     </button>
-                    <button class="btn btn-primary btn-xs" stop-music>
+                    <button class="btn btn-primary btn-sm" stop-music>
                         <i class="fa fa-stop"></i>
                     </button>
-                    <button class="btn btn-primary btn-xs" prev-track>
+                    <button class="btn btn-primary btn-sm" prev-track>
                         <i class="fa fa-step-backward"></i>
                     </button>
-                    <button class="btn btn-primary btn-xs" next-track>
+                    <button class="btn btn-primary btn-sm" next-track>
                         <i class="fa fa-step-forward"></i>
                     </button>
-                    <button class="btn btn-primary btn-xs" ng-click="clear()">
+                    <button class="btn btn-primary btn-sm" ng-click="clear()">
                         <i class="fa fa-trash-o"></i>
                     </button>
 
+                    <hr/>
 
-                    <ul>
-                        <li ng-repeat="song in playlist">
-                            <a play-from-playlist="song">{{ song.title }}</a>
-                            <span ng-if="currentPlaying.id == song.id"> - (current)</span>
-                        </li>
+                    <ul class="list-group" ng-repeat="song in playlist">
+                        <li play-from-playlist="song" class="list-group-item">{{ song.title }} <span ng-if="currentPlaying.id == song.id"> current</span></li>
                     </ul>
+
                 </div>
 
             </div>

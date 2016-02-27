@@ -44,6 +44,7 @@
                         <li class="list-group-item" ng-repeat="song in folderSongs">
                             <button class="btn btn-sm btn-default" music-player="play" add-song="song"><i class="fa fa-play"></i></button>
                             <button class="btn btn-sm btn-default" music-player add-song="song"><i class="fa fa-plus-circle"></i></button>
+                            <button class="btn btn-sm btn-default"><a ng-href="{{song.url}}" download><i class="fa fa-download"></i></a></button>
                             {{song.title}}
                         </li>
                     </ul>

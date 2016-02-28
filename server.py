@@ -9,7 +9,7 @@ app = Flask(__name__)
 tool = Tool()
 
 with open(tool.get('music_database')) as f:
-    fuzzy_choices = f.read().decode('utf-8').strip().split('\n')
+    fuzzy_choices = f.read().strip().split('\n')
 
 search_limit = tool.get('search_limit')
 

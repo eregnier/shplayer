@@ -94,6 +94,7 @@ module.controller('MainCtrl', function ($scope, $http) {
         console.log(selection);
         var path = selection[0].replace('./', '').split('/');
         path.pop();
+        $scope.interpath = '';
         $scope.go(path.join('/'));
         $scope.search = [];
     };

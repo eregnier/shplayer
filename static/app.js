@@ -60,5 +60,31 @@ module.controller('MainCtrl', function ($scope, $http) {
     };
 
 
+    $scope.searchToken = function () {
+        console.log('search', $scope.fuzzySearch);
+        if ($scope.fuzzySearch == '') {
+            $scope.search = [];
+        } else {
+            $http.get('/search/' + $scope.fuzzySearch).success(function (data) {
+                $scope.search = data.data;
+            });
+        }
+    };
+
+    $scope.formatResult = function (result) {
+        if (result) {
+            console.log(result[0]);
+            return result[0].split('/').pop().replace('.mp3', '');
+        }
+    };
+
+    $scope.goSearch = function (selection) {
+        console.log(selection);
+        var path = selection[0].replace('./', '').split('/');
+        path.pop();
+        $scope.go(path.join('/'));
+        $scope.search = [];
+    };
+
 });
 

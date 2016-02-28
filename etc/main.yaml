@@ -2,3 +2,5 @@ level: DEBUG
 logfile: /tmp/shmudic.log
 port: 5000
 music_folder: /path/to/music/folder
+music_database: /tmp/music.fuzz
+search_limit: 10

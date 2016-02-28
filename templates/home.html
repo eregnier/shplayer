@@ -16,10 +16,22 @@
 
     </head>
 
-    <body ng-controller="MainCtrl" class="container" style="margin-top:25px">
+    <body ng-controller="MainCtrl" class="container" style="margin-top:10px">
 
         {%raw%}
             <sound-manager></sound-manager>
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2" style="margin-bottom: 15px">
+                    <input placeholder="Search for music" class="form-control col-md-12" ng-model="fuzzySearch" ng-keyup="searchToken()"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <ul ng-if="search.length" class="list-group col-md-12" style="position: absolute; z-index: 100">
+                        <li class="list-group-item" ng-click="goSearch(result)" ng-repeat="result in search">{{formatResult(result)}}</li>
+                    </ul>
+                </div>
+            </ul>
             <div class="row">
                 <div class="col-md-9">
                     <ul class="list-group">

@@ -13,10 +13,20 @@ General information
 
 This is a python project on server side. Once setup, the frontend web application is based on angular js framework.
 
+Features
+========
+
+- Web music player
+- Self hosted
+- File system based library structure
+- Music search engine (optional, default enabled)
+- Covers
+- Lightweight
+
 Requirements
 ============
 
-Python >= 2.7 
+Python >= 2.7
 pip (apt-get install python-pip)
 
 Installation
@@ -54,6 +64,8 @@ Install python dependencies
 This will install this projects python dependencies within the virtualenv
 
 Change the path where your music are located on your file system by editing the etc/main.yaml. You may put a path where many symlinks feed your whole music collection.
+
+If you activated the fuzzy search feature (in configuration file), you should run the manager.py script that will generate a data file from your music folder. If your music folder structure evolve, you may have to run again the manager to update the music database. when the script has finished running, the server restart is required to take care of database changes
 
 Then the server is ready to run
 

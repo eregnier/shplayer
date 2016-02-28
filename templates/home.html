@@ -7,7 +7,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
+        <meta name="description" content="A simple self hosted web music player">
 
         <link rel="icon" href="/static/favicon.ico" />
         <link rel="stylesheet" href="/static/bootstrap.min.css"/>
@@ -20,18 +20,18 @@
 
         {%raw%}
             <sound-manager></sound-manager>
-            <div class="row">
+            <div ng-show="configuration.use_fuzzy" class="row">
                 <div class="col-md-8 col-md-offset-2" style="margin-bottom: 15px">
                     <input placeholder="Search for music" class="form-control col-md-12" ng-model="fuzzySearch" ng-keyup="searchToken()"/>
                 </div>
             </div>
-            <div class="row">
+            <div ng-show="configuration.use_fuzzy" class="row">
                 <div class="col-md-8 col-md-offset-2">
                     <ul ng-if="search.length" class="list-group col-md-12" style="position: absolute; z-index: 100">
                         <li class="list-group-item" ng-click="goSearch(result)" ng-repeat="result in search">{{formatResult(result)}}</li>
                     </ul>
                 </div>
-            </ul>
+            </div>
             <div class="row">
                 <div class="col-md-9">
                     <ul class="list-group">
@@ -63,8 +63,10 @@
                 </div>
                 <!--Player-->
                 <div class="col-md-3 well text-center">
+                    <div ng-if="coverUrl" class="row">
+                        <img ng-src="file/{{coverUrl}}" class="img-responsive"/>
+                    </div>
                     <div class="row">
-                        <p>Playlist</p>
 
                         <button class="btn btn-primary btn-sm" play-music>
                             <i class="fa fa-play"></i>

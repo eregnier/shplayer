@@ -31,11 +31,23 @@ module.controller('MainCtrl', function ($scope, $http) {
                 $scope.files = data.data.files;
                 $scope.interpath = new_path;
                 $scope.updateMusics();
+                $scope.covers(new_path);
             }
         });
     };
 
-    $scope.go('');
+    $scope.covers = function (path) {
+        $http.get('/covers' + path).success(function (data) {
+            if (data.data && data.data.length) {
+                var rnd = parseInt(data.data.length * Math.random());
+                $scope.coverUrl = data.data[rnd];
+            } else {
+                $scope.coverUrl = '';
+            }
+
+        });
+    };
+
     guid = function () {
         function s4() {
             return Math.floor((1 + Math.random()) * 0x10000)
@@ -62,12 +74,12 @@ module.controller('MainCtrl', function ($scope, $http) {
 
     $scope.searchToken = function () {
         console.log('search', $scope.fuzzySearch);
-        if ($scope.fuzzySearch == '') {
-            $scope.search = [];
-        } else {
+        if ($scope.fuzzySearch) {
             $http.get('/search/' + $scope.fuzzySearch).success(function (data) {
                 $scope.search = data.data;
             });
+        } else {
+            $scope.search = [];
         }
     };
 
@@ -86,5 +98,12 @@ module.controller('MainCtrl', function ($scope, $http) {
         $scope.search = [];
     };
 
+
+    //initialization folder
+    $scope.go('');
+    //configuration load
+    $http.get('/configuration').success(function (data) {
+        $scope.configuration = data.data;
+    });
 });
 

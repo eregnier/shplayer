@@ -22,6 +22,13 @@ def serve_static(path):
 def index():
     return render_template('home.html')
 
+@app.route('/configuration', methods=['GET'])
+def configuration():
+    configuration = {
+        'use_fuzzy': tool.get('use_fuzzy')
+    }
+    return tool.ok('Configuration', data=configuration)
+
 
 @app.route('/search/<token>', methods=['GET'])
 def search(token):
@@ -31,6 +38,20 @@ def search(token):
             token, fuzzy_choices, limit=search_limit
         )
     )
+
+@app.route('/covers/', methods=['GET'])
+@app.route('/covers/<path:path>', methods=['GET'])
+def covers(path=''):
+
+    absolute_path = u'{0}/{1}'.format(tool.music_folder, path)
+    covers = []
+    if isdir(absolute_path):
+        file_list = listdir(absolute_path)
+        for file_path in file_list:
+            ext = file_path.lower()
+            if ext.endswith('jpg') or ext.endswith('png'):
+                covers.append(u'{0}/{1}'.format(path, file_path))
+    return tool.ok('Cover results', data=covers)
 
 @app.route('/music', methods=['GET'])
 @app.route('/music/<path:path>', methods=['GET'])

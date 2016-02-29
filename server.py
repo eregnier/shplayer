@@ -8,8 +8,17 @@ from fuzzywuzzy import process
 app = Flask(__name__)
 tool = Tool()
 
+fuzzy_choices = []
+ko = 0
 with open(tool.get('music_database')) as f:
-    fuzzy_choices = f.read().strip().split('\n')
+    for line in f:
+        try:
+            entry = line.strip().decode('utf-8')
+            fuzzy_choices.append(entry)
+        except Exception as decodeError:
+            ko += 0
+if ko:
+    tool.debug(ko, 'files could not be add to the seach engine')
 
 search_limit = tool.get('search_limit')
 

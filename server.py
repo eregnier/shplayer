@@ -44,7 +44,8 @@ def index():
 @app.route('/configuration', methods=['GET'])
 def configuration():
     configuration = {
-        'use_fuzzy': tool.get('use_fuzzy')
+        'use_fuzzy': tool.get('use_fuzzy'),
+        'use_match': tool.get('use_match')
     }
     return tool.ok('Configuration', data=configuration)
 

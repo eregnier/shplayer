@@ -73,14 +73,24 @@ module.controller('MainCtrl', function ($scope, $http) {
 
 
     $scope.searchToken = function () {
+
         console.log('search', $scope.fuzzySearch);
-        if ($scope.fuzzySearch) {
-            $http.get('/search/' + $scope.fuzzySearch).success(function (data) {
-                $scope.search = data.data;
-            });
-        } else {
-            $scope.search = [];
-        }
+        var now = + new Date();
+
+        setTimeout(function () {
+
+            if ($scope.fuzzySearch.length > 3 && now - $scope.debounce > 700) {
+                console.log('trigger search !');
+                if ($scope.fuzzySearch) {
+                    $http.get('/search/' + $scope.fuzzySearch).success(function (data) {
+                        $scope.search = data.data;
+                    });
+                } else {
+                    $scope.search = [];
+                }
+                $scope.debounce = + new Date();
+            }
+        }, 600);
     };
 
     $scope.formatResult = function (result) {
@@ -105,6 +115,10 @@ module.controller('MainCtrl', function ($scope, $http) {
     //configuration load
     $http.get('/configuration').success(function (data) {
         $scope.configuration = data.data;
+        $scope.useSearch = $scope.configuration.use_fuzzy || $scope.configuration.use_match;
+        console.log('useSearch', $scope.configuration.use_fuzzy, $scope.configuration.use_match);
     });
+    $scope.debounce = + new Date();
+
 });
 

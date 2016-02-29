@@ -23,6 +23,32 @@ Features
 - Covers
 - Lightweight
 
+
+Options
+=======
+
+Project configuration is managed through the etc/main.yaml file.
+
+This file contains the following options:
+
+level: Debug level for log verbosity and debug behavior of the application
+logfile: path to the log file on the system
+port: listen port when running directly with flask (debug purpose)
+music_database: path to the search database that have to be denerated via the manager.py file
+search_limit: number of results in the search engine (UI)
+use_fuzzy: Use a search engine with fuzzy implementation, more powerfull but may be not efficient on large music collections
+use_match: Use a simple comparison filter on the music collection. Support search on large music sets
+music_folder: Path to the music folder that the web UI will allow to browse
+title: The application html title page
+
+Security
+========
+
+Authentication is done on my side thanks to my webserver Basic auth mechanism that provide simple system authentication method.
+This can be done on majors webservers like apache, nginx or lightppd. A lot of documentation is available for this purpose.
+
+Maybe in the future, a simple auth system module may be implemented.
+
 Requirements
 ============
 
@@ -33,7 +59,6 @@ Installation
 ============
 
 The recomanded way to install this project is to use a python virtual environment. This allow to keep this project isolated from your system general installation.
-
 
 
 Install virtual env on your system:
@@ -73,7 +98,7 @@ Then the server is ready to run
 
 This will make the application listen on the port 5000 that is now reachable from your browser.
 
-For production mode, I recomand using gunicorn (that is listed in the python requirements). you also may want to use a frontal webserver such as nginx that provide basic authentication system.
+For production mode, I recomand using gunicorn (that is listed in the python requirements). you also may want to use a frontal webserver such as nginx that provide basic authentication system. You can run the server like so with gunicorn when the virtualenv is ready.
 
 Live demo
 =========
@@ -81,5 +106,7 @@ Live demo
 http://demoshplayer.utopland.net
 
 
-Licence: MIT
-------------
+Licence
+=======
+
+MIT

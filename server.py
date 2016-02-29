@@ -8,13 +8,19 @@ from fuzzywuzzy import process
 app = Flask(__name__)
 tool = Tool()
 
+# Initilize search engine
 fuzzy_choices = []
+fuzzy_choices_lower = []
 ko = 0
+match_search = tool.get('use_match')
 with open(tool.get('music_database')) as f:
     for line in f:
         try:
             entry = line.strip().decode('utf-8')
             fuzzy_choices.append(entry)
+            # put computed lower string in cache
+            if match_search:
+                fuzzy_choices_lower.append(entry.lower())
         except Exception as decodeError:
             ko += 0
 if ko:
@@ -22,14 +28,18 @@ if ko:
 
 search_limit = tool.get('search_limit')
 
+
 @app.route('/static/<path:path>', methods=['GET'])
 def serve_static(path):
-        return send_from_directory('static', path)
+    return send_from_directory('static', path)
 
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('home.html')
+    return render_template(
+        'home.html', page_title=tool.get('title')
+    )
+
 
 @app.route('/configuration', methods=['GET'])
 def configuration():
@@ -41,12 +51,24 @@ def configuration():
 
 @app.route('/search/<token>', methods=['GET'])
 def search(token):
-    return Tool.ok(
-        'Search complete',
-        data=process.extract(
-            token, fuzzy_choices, limit=search_limit
+
+    if match_search:
+        # Simple search
+        results = []
+        for x, entry in enumerate(fuzzy_choices_lower):
+            if token in entry:
+                results.append([fuzzy_choices[x], 100])
+                if len(results) == search_limit:
+                    break
+        return Tool.ok('Simple search complete', data=results)
+    else:
+        # Fuzzy search
+        return Tool.ok(
+            'Fuzzy search complete',
+            data=process.extract(
+                token, fuzzy_choices, limit=search_limit
+            )
         )
-    )
 
 @app.route('/covers/', methods=['GET'])
 @app.route('/covers/<path:path>', methods=['GET'])

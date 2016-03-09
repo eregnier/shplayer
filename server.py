@@ -1,9 +1,11 @@
 # coding: utf-8
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, request
 from os.path import isdir, isfile
 from os import listdir
 from tools import Tool
 from fuzzywuzzy import process
+import requests
+from BeautifulSoup import BeautifulSoup
 
 app = Flask(__name__)
 tool = Tool()
@@ -13,16 +15,17 @@ fuzzy_choices = []
 fuzzy_choices_lower = []
 ko = 0
 match_search = tool.get('use_match')
-with open(tool.get('music_database')) as f:
-    for line in f:
-        try:
-            entry = line.strip().decode('utf-8')
-            fuzzy_choices.append(entry)
-            # put computed lower string in cache
-            if match_search:
-                fuzzy_choices_lower.append(entry.lower())
-        except Exception as decodeError:
-            ko += 0
+if isfile(tool.get('music_database')):
+    with open(tool.get('music_database')) as f:
+        for line in f:
+            try:
+                entry = line.strip().decode('utf-8')
+                fuzzy_choices.append(entry)
+                # put computed lower string in cache
+                if match_search:
+                    fuzzy_choices_lower.append(entry.lower())
+            except Exception as decodeError:
+                ko += 0
 if ko:
     tool.debug(ko, 'files could not be add to the seach engine')
 
@@ -72,6 +75,7 @@ def search(token):
             )
         )
 
+
 @app.route('/covers/', methods=['GET'])
 @app.route('/covers/<path:path>', methods=['GET'])
 def covers(path=''):
@@ -85,6 +89,40 @@ def covers(path=''):
             if ext.endswith('jpg') or ext.endswith('png'):
                 covers.append(u'{0}/{1}'.format(path, file_path))
     return tool.ok('Cover results', data=covers)
+
+
+@app.route('/browse', methods=['POST'])
+def browse():
+
+    url = request.get_json().get('url')
+    response = requests.get(url)
+    if response.status_code != 200:
+        return tool.ko('Requested url not found !')
+
+    exclude_names = [
+        'Name',
+        'Last modified',
+        'Size',
+        'Description',
+        'Parent Directory'
+    ]
+
+    soup = BeautifulSoup(response.text)
+    folders = []
+    files = []
+    for link in soup.findAll('a'):
+        text = link.text
+        if text not in exclude_names:
+            if text.endswith('/'):
+                folders.append(text[:-1])
+            elif text.lower().endswith('.mp3'):
+                files.append(text)
+
+    return tool.ok('Found links', data={
+        'files': files,
+        'folders': folders,
+    })
+
 
 @app.route('/music', methods=['GET'])
 @app.route('/music/<path:path>', methods=['GET'])

@@ -1,0 +1,10 @@
+<button ng-click="toggleSourceAdd()" class="btn btn-sm btn-default pull-right">
+    <i class="fa fa-plus"></i>
+</button>
+<button ng-click="deleteSelectedSource()" class="btn btn-sm btn-default pull-right">
+    <i class="fa fa-minus"></i>
+</button>
+<input ng-show="showSourceAdd" class="form-control input-sm pull-right" ng-model="dataSource"/>
+<select class="form-control input-sm pull-right" ng-selected="selectedSource" ng-change="onChange()" ng-model="selectedSource">
+    <option ng-repeat="source in sources" value="{{source}}">{{source}}</option>
+</select>

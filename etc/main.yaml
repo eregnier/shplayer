@@ -1,9 +1,9 @@
 level: DEBUG
 logfile: /tmp/shmudic.log
 port: 5000
-music_database: /tmp/music.fuzz
+music_database: /home/utopman/Téléchargements/music.fuzz
 search_limit: 10
 use_fuzzy: true
-use_match: false
-music_folder: /path/to/music/folder
+use_match: true
+music_folder: /home/utopman/Musique
 title: Self hosting simple web music player

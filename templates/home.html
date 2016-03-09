@@ -35,19 +35,28 @@
             <div class="row">
                 <div class="col-md-9">
                     <ul class="list-group">
-                        <li  class="list-group-item">
-                            <button ng-click="go('/')" class="btn btn-sm btn-default">
-                                <i class="fa fa-arrow-up"></i>
-                            </button>
-                            <button ng-click="go('..')" class="btn btn-sm btn-default">
-                                <i class="fa fa-arrow-left"></i>
-                            </button>
-                            <button ng-if="folderSongs.length" class="btn btn-sm btn-default" play-all="folderSongs" data-play="false">
-                                <i class="fa fa-plus-square"></i> Add all
-                            </button>
-                            <button ng-if="folderSongs.length" class="btn btn-sm btn-default" play-all="folderSongs">
-                                <i class="fa fa-play"></i> Play all
-                            </button>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <form class="form-inline">
+                                    <div class="form-group col-md-4">
+                                        <button ng-click="go('/')" class="btn btn-sm btn-default">
+                                            <i class="fa fa-arrow-up"></i>
+                                        </button>
+                                        <button ng-click="go('..')" class="btn btn-sm btn-default">
+                                            <i class="fa fa-arrow-left"></i>
+                                        </button>
+                                        <button ng-if="folderSongs.length" class="btn btn-sm btn-default" play-all="folderSongs" data-play="false">
+                                            <i class="fa fa-plus-square"></i> Add all
+                                        </button>
+                                        <button ng-if="folderSongs.length" class="btn btn-sm btn-default" play-all="folderSongs">
+                                            <i class="fa fa-play"></i> Play all
+                                        </button>
+                                    </div>
+                                    <div class="form-group col-md-8">
+                                        <div sourcemanager></div>
+                                    </div>
+                                </form>
+                            </div>
                         </li>
                         <li ng-click="go(folder)" class="list-group-item" ng-repeat="folder in folders">
                             <a>{{folder}}</a>
@@ -111,6 +120,7 @@
         <script type="text/javascript" src="/static/bower_components/angularjs/angular.min.js"></script>
         <script type="text/javascript" src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="/static/app.js"></script>
+        <script type="text/javascript" src="/static/components/sourcemanager/directive.js"></script>
         <script type="text/javascript" src="/static/bower_components/angular-soundmanager3/dist/angular-soundmanager3.min.js"></script>
 
     </body>

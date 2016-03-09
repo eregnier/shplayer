@@ -2,4 +2,5 @@ flask
 pyYaml
 gunicorn
 fuzzywuzzy
-python-levenshtein
+beautifulsoup
+requests

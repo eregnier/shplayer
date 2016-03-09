@@ -3,17 +3,30 @@ var module = angular.module('ShMusicApp', ['angularSoundManager']);
 module.controller('MainCtrl', function ($scope, $http) {
 
     $scope.interpath = '';
+    $scope.selectedSource = 'file system';
 
     $scope.go = function (path) {
+
+
         if (path === '/') {
             path = '';
-            $scope.interpath = '';
+            if ($scope.selectedSource !== 'file system') {
+                $scope.interpath = $scope.selectedSource;
+            } else {
+                $scope.interpath = '';
+            }
         }
         if (path === '..') {
             path = '';
             var splitter = $scope.interpath.split('/');
             splitter.pop();
             $scope.interpath = splitter.join('/');
+        }
+
+        //manage external resources
+        if ($scope.selectedSource !== 'file system') {
+            $scope.browseUrl($scope.interpath + path);
+            return;
         }
 
         var new_path = '';
@@ -58,12 +71,20 @@ module.controller('MainCtrl', function ($scope, $http) {
     };
 
     $scope.updateMusics = function () {
+
         var folderSongs = [];
+        var prefix = '';
+
+        //Allow query the webserver api, or direct http queries
+        if ($scope.selectedSource === 'file system') {
+            prefix = 'file';
+        }
+
         angular.forEach($scope.files, function (value, index) {
             var music_path = $scope.interpath + '/' + value;
             console.log(music_path, index);
             folderSongs.push({
-                url: 'file' + music_path,
+                url: prefix + music_path,
                 id: guid(),
                 title: music_path.split('/').pop().replace('.mp3', '')
             });
@@ -110,6 +131,32 @@ module.controller('MainCtrl', function ($scope, $http) {
     };
 
 
+
+    $scope.$on('sourceChange', function (e, selectedSource) {
+        console.log('selected source', selectedSource);
+        $scope.selectedSource = selectedSource
+        $scope.interpath = '';
+        //switch between remote source or file system folders
+        if ($scope.selectedSource === 'file system') {
+            $scope.go('');
+        } else {
+            $scope.browseUrl(selectedSource);
+        }
+    })
+
+    $scope.browseUrl = function (url) {
+        $scope.interpath = url;
+        $http.post('/browse', {url: url}).success(function (data) {
+            if (data.success) {
+                console.log('retrieved', data);
+                $scope.folders = data.data.folders;
+                $scope.files = data.data.files;
+                $scope.updateMusics();
+            }
+        });
+    };
+
+
     //initialization folder
     $scope.go('');
     //configuration load
@@ -119,6 +166,5 @@ module.controller('MainCtrl', function ($scope, $http) {
         console.log('useSearch', $scope.configuration.use_fuzzy, $scope.configuration.use_match);
     });
     $scope.debounce = + new Date();
-
 });
 

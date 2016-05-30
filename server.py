@@ -13,16 +13,18 @@ fuzzy_choices = []
 fuzzy_choices_lower = []
 ko = 0
 match_search = tool.get('use_match')
-with open(tool.get('music_database')) as f:
-    for line in f:
-        try:
-            entry = line.strip().decode('utf-8')
-            fuzzy_choices.append(entry)
-            # put computed lower string in cache
-            if match_search:
-                fuzzy_choices_lower.append(entry.lower())
-        except Exception as decodeError:
-            ko += 0
+music_db = tool.get('music_database')
+if isfile(music_db):
+	with open(tool.get('music_database')) as f:
+	    for line in f:
+		try:
+		    entry = line.strip().decode('utf-8')
+		    fuzzy_choices.append(entry)
+		    # put computed lower string in cache
+		    if match_search:
+			fuzzy_choices_lower.append(entry.lower())
+		except Exception as decodeError:
+		    ko += 0
 if ko:
     tool.debug(ko, 'files could not be add to the seach engine')
 

@@ -1,5 +1,10 @@
 var module = angular.module('ShMusicApp', ['angularSoundManager']);
 
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
 module.controller('MainCtrl', function ($scope, $http) {
 
     $scope.interpath = '';
@@ -24,7 +29,7 @@ module.controller('MainCtrl', function ($scope, $http) {
             new_path += '/' + path;
         }
 
-        $http.get('/music' + new_path).success(function (data) {
+        $http.get('/music' + new_path.replaceAll('#', '%23')).success(function (data) {
             if (data.success) {
                 console.log('retrieved', data);
                 $scope.folders = data.data.folders;

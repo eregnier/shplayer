@@ -42,7 +42,7 @@ module.controller('MainCtrl', function ($scope, $http) {
     };
 
     $scope.covers = function (path) {
-        $http.get('/covers' + path).success(function (data) {
+        $http.get('/covers' + path.replaceAll('#', '%23')).success(function (data) {
             if (data.data && data.data.length) {
                 var rnd = parseInt(data.data.length * Math.random());
                 $scope.coverUrl = data.data[rnd];
@@ -87,7 +87,7 @@ module.controller('MainCtrl', function ($scope, $http) {
             if ($scope.fuzzySearch.length > 3 && now - $scope.debounce > 700) {
                 console.log('trigger search !');
                 if ($scope.fuzzySearch) {
-                    $http.get('/search/' + $scope.fuzzySearch).success(function (data) {
+                    $http.get('/search/' + $scope.fuzzySearch.replaceAll('#', '%23') .success(function (data) {
                         $scope.search = data.data;
                     });
                 } else {

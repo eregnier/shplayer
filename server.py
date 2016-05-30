@@ -59,7 +59,8 @@ def search(token):
         # Simple search
         results = []
         for x, entry in enumerate(fuzzy_choices_lower):
-            if token in entry:
+            tokens = token.split(' ')
+            if all([field in entry for field in tokens]):
                 results.append([fuzzy_choices[x], 100])
                 if len(results) == search_limit:
                     break

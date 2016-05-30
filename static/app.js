@@ -87,7 +87,7 @@ module.controller('MainCtrl', function ($scope, $http) {
             if ($scope.fuzzySearch.length > 3 && now - $scope.debounce > 700) {
                 console.log('trigger search !');
                 if ($scope.fuzzySearch) {
-                    $http.get('/search/' + $scope.fuzzySearch.replaceAll('#', '%23') .success(function (data) {
+                    $http.get('/search/' + $scope.fuzzySearch.replaceAll('#', '%23')).success(function (data) {
                         $scope.search = data.data;
                     });
                 } else {

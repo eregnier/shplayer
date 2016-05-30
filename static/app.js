@@ -68,7 +68,7 @@ module.controller('MainCtrl', function ($scope, $http) {
             var music_path = $scope.interpath + '/' + value;
             console.log(music_path, index);
             folderSongs.push({
-                url: 'file' + music_path,
+                url: 'file' + music_path.replaceAll('#', '%23'),
                 id: guid(),
                 title: music_path.split('/').pop().replace('.mp3', '')
             });

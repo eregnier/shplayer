@@ -1,7 +1,7 @@
 level: DEBUG
 logfile: /tmp/shmudic.log
 port: 5000
-music_database: /etc/music.fuzz
+music_database: music.fuzz
 search_limit: 10
 use_fuzzy: true
 use_match: true

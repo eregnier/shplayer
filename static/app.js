@@ -43,9 +43,10 @@ module.controller('MainCtrl', function ($scope, $http) {
 
     $scope.covers = function (path) {
         $http.get('/covers' + path.replaceAll('#', '%23')).success(function (data) {
+	console.log('covers', data)
             if (data.data && data.data.length) {
                 var rnd = parseInt(data.data.length * Math.random());
-                $scope.coverUrl = data.data[rnd];
+                $scope.coverUrl = data.data[rnd].replaceAll('#', '%23');
             } else {
                 $scope.coverUrl = '';
             }

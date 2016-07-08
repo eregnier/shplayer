@@ -15,16 +15,16 @@ ko = 0
 match_search = tool.get('use_match')
 music_db = tool.get('music_database')
 if isfile(music_db):
-	with open(tool.get('music_database')) as f:
-	    for line in f:
-		try:
-		    entry = line.strip().decode('utf-8')
-		    fuzzy_choices.append(entry)
-		    # put computed lower string in cache
-		    if match_search:
-			fuzzy_choices_lower.append(entry.lower())
-		except Exception as decodeError:
-		    ko += 0
+    with open(tool.get('music_database')) as f:
+        for line in f:
+            try:
+                entry = line.strip().decode('utf-8')
+                fuzzy_choices.append(entry)
+                #  put computed lower string in cache
+                if match_search:
+                    fuzzy_choices_lower.append(entry.lower())
+            except Exception as decodeError:
+                ko += 0
 if ko:
     tool.debug(ko, 'files could not be add to the seach engine')
 
@@ -74,6 +74,7 @@ def search(token):
             )
         )
 
+
 @app.route('/covers/', methods=['GET'])
 @app.route('/covers/<path:path>', methods=['GET'])
 def covers(path=''):
@@ -87,6 +88,7 @@ def covers(path=''):
             if ext.endswith('jpg') or ext.endswith('png'):
                 covers.append(u'{0}/{1}'.format(path, file_path))
     return tool.ok('Cover results', data=covers)
+
 
 @app.route('/music', methods=['GET'])
 @app.route('/music/<path:path>', methods=['GET'])

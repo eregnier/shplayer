@@ -100,12 +100,6 @@ This will make the application listen on the port 5000 that is now reachable fro
 
 For production mode, I recomand using gunicorn (that is listed in the python requirements). you also may want to use a frontal webserver such as nginx that provide basic authentication system. You can run the server like so with gunicorn when the virtualenv is ready.
 
-Live demo
-=========
-
-http://demoshplayer.utopland.net
-
-
 Licence
 =======
 
